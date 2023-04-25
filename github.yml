@@ -1,0 +1,57 @@
+name: Selenium Tests Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  selenium_test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        browser: [chrome, firefox]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python environment
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Start Selenium WebDriver
+      run: |
+        wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo dpkg -i google-chrome-stable_current_amd64.deb
+        sudo apt-get -yqq update
+        sudo apt-get -yqq install firefox
+        python -m webdriver_manager.chrome --versions-path=/usr/bin
+        python -m webdriver_manager.firefox --linkpath /usr/bin
+
+    - name: Run Selenium tests
+      run:  pytest -v -s test_snaptrude.py
+      env:
+        BROWSER: ${{ matrix.browser }}
+
+
+    # - name: Send Slack notification
+    #   uses: 8398a7/action-slack@v3
+    #   if: always()
+    #   with:
+    #     status: ${{ job.status }}
+    #     text: "Selenium Tests have completed. Status: ${{ job.status }}."
+    #     fields: "Browser: ${{ matrix.browser }}"
+    #     author_name: "Selenium Tests Pipeline"
+    #     author_link: "https://github.com/your-username/your-repository/actions/runs/${{ github.run_id }}"
+    #     color: "${{ job.status }}"
+
+    #   env:
+    #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
