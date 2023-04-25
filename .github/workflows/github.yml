@@ -36,7 +36,7 @@ jobs:
         python -m webdriver_manager.firefox --linkpath /usr/bin
 
     - name: Run Selenium tests
-      run:  pytest -v -s test_snaptrude.py
+      run:  pytest -v -s ./test_snaptrude.py
       env:
         BROWSER: ${{ matrix.browser }}
 
