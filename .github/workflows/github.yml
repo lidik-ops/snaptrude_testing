@@ -34,17 +34,15 @@ jobs:
         run: pytest -v -s ./test_snaptrude.py
 
       - name: Notify on Slack
+        if: github.event_name == 'push'
         if: always() # sends notification regardless of previous steps
         uses: rtCamp/action-slack-notify@v2
-        with:
-          status: ${{ job.status }}
-          message: |
-            *Selenium Tests Pipeline* on *${{ github.repository }}* has finished running.
-            Status: ${{ job.status }}.
-            Commit: ${{ github.sha }}.
-            Job URL: ${{ github.event.workflow_run.url }}.
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: AutomationTestsBot
           SLACK_COLOR: ${{ job.status }}
-          SLACK_ICON: https://github.com/lydia-karungi/snaptrude_testing/blob/main/snap.jpeg
+          SLACK_MESSAGE: '*Selenium Tests Pipeline* on *${{ github.repository }}* has finished running.
+                          Status: ${{ job.status }}.
+                          Commit: ${{ github.sha }}.
+                          Job URL: ${{ github.event.workflow_run.url }}.'
+
