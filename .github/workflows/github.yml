@@ -46,3 +46,5 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: AutomationTestsBot
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_ICON: https://github.com/lydia-karungi/snaptrude_testing/blob/main/snap.jpeg
