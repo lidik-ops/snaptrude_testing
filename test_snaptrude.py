@@ -4,7 +4,7 @@ from read_properties import ReadConfig
 from snaptrude_functionality_checks import SnapTrudeFunctionality
 
 base_url = ReadConfig.get_application_url()
-class TestSnaptrudechecks:
+class TestSnaptrudeChecks:
 
     def test_successful_snaptrude_functionality(self, setup):
         """This method performs successful redirect to snaptrude"""

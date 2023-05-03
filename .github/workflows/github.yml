@@ -8,45 +8,36 @@ jobs:
   selenium_test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        browser: [chrome, firefox]
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Python environment
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
+      - name: Set up Python environment
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Start Selenium WebDriver
-      run: |
-        wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        sudo dpkg -i google-chrome-stable_current_amd64.deb
-        sudo apt-get -yqq update
-        sudo apt-get -yqq install firefox
-        python -m webdriver_manager.chrome --versions-path=/usr/bin
-        python -m webdriver_manager.firefox --linkpath /usr/bin
+      - name: Start Selenium WebDriver
+        run: |
+          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo dpkg -i google-chrome-stable_current_amd64.deb
+          python -m webdriver_manager.chrome --versions-path=/usr/bin
 
-    - name: Run Selenium tests
-      run:  pytest -v -s ./test_snaptrude.py
-      env:
-        BROWSER: ${{ matrix.browser }}
+      - name: Run Selenium tests on Chrome
+        run: pytest -v -s ./test_snaptrude.py
 
-    - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_CHANNEL: general
-        SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
-        SLACK_ICON: https://github.com/rtCamp.png?size=48
-        SLACK_MESSAGE: 'Post Content :rocket:'
-        SLACK_TITLE: Post Title
-        SLACK_USERNAME: rtCamp
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: general
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_MESSAGE: 'Post Content :rocket:'
+          SLACK_TITLE: Post Title
+          SLACK_USERNAME: rtCamp
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

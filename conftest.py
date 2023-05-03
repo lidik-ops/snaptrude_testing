@@ -11,6 +11,6 @@ def setup():
     chrome_prefs = {}
     options.experimental_options["prefs"] = chrome_prefs
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-    driver.implicitly_wait(20)
+    driver.implicitly_wait(10)
     driver.maximize_window() 
     return driver
