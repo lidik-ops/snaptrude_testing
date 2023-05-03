@@ -38,10 +38,10 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_USERNAME: AutomationTestsBot
-          SLACK_COLOR: ${{ job.status == 'success' && '#2eb886' || '#ff0000' }}
+          SLACK_USERNAME: Automation Tests
           SLACK_MESSAGE: |
-            *Selenium Tests Pipeline* on *${{ github.repository }}* has finished running.
+            *Sceduled Pipeline* on *${{ github.repository }}* has finished running.
             Status: ${{ job.status }}.
             Commit: ${{ github.sha }}.
-            Job URL: ${{ github.event.workflow_run.url }}.
+            Job URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SLACK_COLOR: ${{ job.status == 'success' && '#00FF00' || '#FF0000' }}
