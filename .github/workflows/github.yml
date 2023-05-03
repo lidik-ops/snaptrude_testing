@@ -44,4 +44,4 @@ jobs:
             Commit: ${{ github.sha }}.
             Job URL: ${{ github.event.workflow_run.url }}.
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
