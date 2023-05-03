@@ -39,8 +39,9 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_USERNAME: AutomationTestsBot
-          SLACK_COLOR: ${{ job.status == 'success' && '#2eb886' || job.status == 'failure' && '#d11f1f' || '#ffcc00' }}
+          SLACK_COLOR: ${{ job.status == 'success' ? '#2eb886' : job.status == 'failure' ? '#d11f1f' : '#ffcc00' }}
           SLACK_MESSAGE: |
-            *Scheduled Pipeline* on *${{ github.repository }}* has finished running.
+            *Selenium Tests Pipeline* on *${{ github.repository }}* has finished running.
             Status: ${{ job.status }}.
+            Commit: ${{ github.sha }}.
             Job URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
