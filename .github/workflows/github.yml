@@ -3,6 +3,8 @@ name: Selenium Tests Pipeline
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '0 0 * * *' # runs everyday at midnight UTC
 
 jobs:
   selenium_test:
@@ -31,13 +33,15 @@ jobs:
       - name: Run Selenium tests on Chrome
         run: pytest -v -s ./test_snaptrude.py
 
-      - name: Slack Notification
+      - name: Notify on Slack
+        if: always() # sends notification regardless of previous steps
         uses: rtCamp/action-slack-notify@v2
+        with:
+          status: ${{ job.status }}
+          message: |
+            *Selenium Tests Pipeline* on *${{ github.repository }}* has finished running.
+            Status: ${{ job.status }}.
+            Commit: ${{ github.sha }}.
+            Job URL: ${{ github.event.workflow_run.url }}.
         env:
-          SLACK_CHANNEL: general
-          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
-          SLACK_ICON: https://github.com/rtCamp.png?size=48
-          SLACK_MESSAGE: 'Post Content :rocket:'
-          SLACK_TITLE: Post Title
-          SLACK_USERNAME: rtCamp
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
