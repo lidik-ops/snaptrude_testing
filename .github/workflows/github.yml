@@ -45,3 +45,4 @@ jobs:
             Job URL: ${{ github.event.workflow_run.url }}.
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: AutomationTestsBot
