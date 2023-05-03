@@ -7,7 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 def setup():
     options = webdriver.ChromeOptions()
     #Run tests in chrome
-    options.headless = False
+    options.headless = True
     chrome_prefs = {}
     options.experimental_options["prefs"] = chrome_prefs
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)

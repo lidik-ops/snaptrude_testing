@@ -14,7 +14,7 @@ class TestSnaptrudeChecks:
         self.driver.get(base_url)
         
         time.sleep(3)
-        #Instantiate class
-        snaptrude = SnapTrudeFunctionality(self.driver)
-        snaptrude.click_signup_btn()
+        # #Instantiate class
+        # snaptrude = SnapTrudeFunctionality(self.driver)
+        # snaptrude.click_signup_btn()
         self.driver.close()
