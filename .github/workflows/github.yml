@@ -35,7 +35,6 @@ jobs:
 
       - name: Notify on Slack
         if: github.event_name == 'push'
-        if: always() # sends notification regardless of previous steps
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
